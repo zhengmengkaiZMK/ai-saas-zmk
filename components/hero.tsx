@@ -5,6 +5,7 @@ import { Button } from "./button";
 import { HiArrowRight } from "react-icons/hi2";
 import { Badge } from "./badge";
 import { motion } from "framer-motion";
+import RotatingText from "./RotatingText";
 
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
@@ -18,6 +19,7 @@ export const Hero = () => {
   const content = {
     badge: isZh ? "我们已完成 6900 万美元种子轮融资" : "We've raised $69M seed funding",
     title: isZh ? "使用 AI 生成图像、文本和视频" : "Generate Images, Text and Videos with AI",
+    rotatingWords: isZh ? ["图像", "文本", "视频", "代码"] : ["Images", "Text", "Videos", "Code"],
     description: isZh 
       ? "Everything AI 将所有现代 AI 生成工具无缝集成到一个平台中，让您只需一键即可生成内容。"
       : "Everything AI seamlessly integrated all the modern AI generation tools into one platform so that you can generate content with a single click.",
@@ -61,7 +63,47 @@ export const Hero = () => {
         }}
         className="text-2xl md:text-4xl lg:text-8xl font-semibold max-w-6xl mx-auto text-center mt-6 relative z-10"
       >
-        <Balancer>{content.title}</Balancer>
+        <Balancer>
+          {isZh ? (
+            <>
+              使用 AI 生成{" "}
+              <span className="inline-block w-[144px] sm:w-[216px] md:w-[336px]">
+                <RotatingText
+                  texts={content.rotatingWords}
+                  mainClassName="inline-flex px-3 sm:px-4 md:px-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-white overflow-hidden py-1 sm:py-2 md:py-3 justify-center rounded-lg w-full"
+                  staggerFrom="last"
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  exit={{ y: "-120%" }}
+                  staggerDuration={0.025}
+                  splitLevelClassName="overflow-hidden pb-1 sm:pb-2 md:pb-2"
+                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                  rotationInterval={2500}
+                />
+              </span>
+            </>
+          ) : (
+            <>
+              Generate{" "}
+              <span className="inline-block w-[168px] sm:w-[240px] md:w-[384px]">
+                <RotatingText
+                  texts={content.rotatingWords}
+                  mainClassName="inline-flex px-3 sm:px-4 md:px-6 bg-gradient-to-r from-cyan-400 to-blue-500 text-white overflow-hidden py-1 sm:py-2 md:py-3 justify-center rounded-lg w-full"
+                  staggerFrom="last"
+                  initial={{ y: "100%" }}
+                  animate={{ y: 0 }}
+                  exit={{ y: "-120%" }}
+                  staggerDuration={0.025}
+                  splitLevelClassName="overflow-hidden pb-1 sm:pb-2 md:pb-2"
+                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                  rotationInterval={2500}
+                />
+              </span>
+              <br />
+              with AI
+            </>
+          )}
+        </Balancer>
       </motion.h1>
       <motion.p
         initial={{

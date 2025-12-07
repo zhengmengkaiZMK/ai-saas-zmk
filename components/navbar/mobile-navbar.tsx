@@ -54,12 +54,12 @@ export const MobileNavbar = ({ navItems }: any) => {
           </div>
           <div className="flex flex-col items-start justify-start gap-[14px] px-8">
             {navItems.map((navItem: any, idx: number) => (
-              <>
+              <div key={`nav-item-${idx}`}>
                 {navItem.children && navItem.children.length > 0 ? (
                   <>
-                    {navItem.children.map((childNavItem: any, idx: number) => (
+                    {navItem.children.map((childNavItem: any, childIdx: number) => (
                       <Link
-                        key={`link=${idx}`}
+                        key={`child-link-${idx}-${childIdx}`}
                         href={childNavItem.link}
                         onClick={() => setOpen(false)}
                         className="relative max-w-[15rem] text-left text-2xl"
@@ -72,7 +72,6 @@ export const MobileNavbar = ({ navItems }: any) => {
                   </>
                 ) : (
                   <Link
-                    key={`link=${idx}`}
                     href={navItem.link}
                     onClick={() => setOpen(false)}
                     className="relative"
@@ -82,7 +81,7 @@ export const MobileNavbar = ({ navItems }: any) => {
                     </span>
                   </Link>
                 )}
-              </>
+              </div>
             ))}
           </div>
           <div className="flex flex-row w-full items-start gap-2.5  px-8 py-4 ">

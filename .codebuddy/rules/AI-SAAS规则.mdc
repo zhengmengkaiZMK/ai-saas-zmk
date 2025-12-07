@@ -1,0 +1,17 @@
+---
+description: 
+alwaysApply: false
+enabled: true
+updatedAt: 2025-12-07T10:18:29.058Z
+provider: 
+---
+
+技术栈
+框架: Next.js 15 with App Router
+语言: TypeScript
+样式: Tailwind CSS
+UI 组件: Radix UI, Aceternity UI
+动画: Framer Motion
+内容: MDX 用于博客和文档
+主题: next-themes 实现深色模式
+部署: Vercel
