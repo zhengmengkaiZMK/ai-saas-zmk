@@ -25,6 +25,10 @@ export function NavBar() {
       title: isZh ? "联系我们" : "Contact",
       link: isZh ? "/zh/contact" : "/contact",
     },
+    {
+      title: "Foodie",
+      link: "/foodie-login",
+    },
   ];
 
   return (
