@@ -411,7 +411,7 @@ export default function RedditTestPage() {
               暂无搜索结果
             </p>
             <p className="text-gray-400 dark:text-gray-500 text-sm">
-              输入搜索关键词并点击"搜索 Reddit"开始使用
+              输入搜索关键词并点击&ldquo;搜索 Reddit&rdquo;开始使用
             </p>
           </div>
         )}
