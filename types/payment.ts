@@ -14,7 +14,7 @@ export interface PricingPlan {
   billingCycle: BillingCycle;
   amount: number; // 金额（美元）
   currency: string;
-  membershipType: "FREE" | "PREMIUM" | "ENTERPRISE";
+  membershipType: "FREE" | "PREMIUM";
   durationDays: number; // 会员有效期（天）
   features: string[];
   featuresZh: string[];
