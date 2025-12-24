@@ -10,7 +10,7 @@ import { prisma } from "@/lib/db/prisma";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { paymentId: string } }
+  { params }: { params: Promise<{ paymentId: string }> }
 ) {
   try {
     // 验证用户登录
@@ -22,7 +22,7 @@ export async function GET(
       );
     }
 
-    const { paymentId } = params;
+    const { paymentId } = await params;
 
     // 查询支付记录
     const payment = await prisma.payment.findUnique({

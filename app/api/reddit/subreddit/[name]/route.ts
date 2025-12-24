@@ -3,11 +3,11 @@ import { SerperService } from '@/lib/services/serper.service';
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { name: string } }
+  { params }: { params: Promise<{ name: string }> }
 ) {
   try {
     // 获取子版块名称和可选查询
-    const { name } = params;
+    const { name } = await params;
     const { searchParams } = new URL(req.url);
     const query = searchParams.get('query') || '';
     const num = parseInt(searchParams.get('num') || '25');
