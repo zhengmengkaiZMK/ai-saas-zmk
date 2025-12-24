@@ -4,11 +4,15 @@ import { MobileNavbar } from "./mobile-navbar";
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 
-export function NavBar() {
+interface NavBarProps {
+  navItems?: { title: string; link: string }[];
+}
+
+export function NavBar({ navItems: customNavItems }: NavBarProps = {}) {
   const pathname = usePathname();
   const isZh = pathname.startsWith("/zh");
 
-  const navItems = [
+  const defaultNavItems = [
     {
       title: isZh ? "价格" : "Pricing",
       link: isZh ? "/zh/pricing" : "/pricing",
@@ -26,6 +30,8 @@ export function NavBar() {
       link: isZh ? "/zh/contact" : "/contact",
     },
   ];
+
+  const navItems = customNavItems || defaultNavItems;
 
   return (
     <motion.nav
