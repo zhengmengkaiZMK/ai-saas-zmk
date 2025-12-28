@@ -15,8 +15,8 @@ export const Hero = () => {
     title: isZh ? "发现用户痛点" : "Discover What Users Hate",
     rotatingWords: isZh ? ["Reddit", "X"] : ["Reddit", "X"],
     description: isZh 
-      ? "输入任何您想问的问题或关键词,我们的 AI 将抓取 Reddit 数据,为您的下一个产品挖掘隐藏的痛点。"
-      : "Enter anything what you want to ask or keyword, and our AI will scrape Reddit to find the hidden pain points for your next product.",
+      ? "输入任何您想问的问题或关键词，我们的 AI 代理将抓取并分析 Reddit 和 X 的数据，为您的下一个产品挖掘隐藏的痛点。"
+      : "Enter anything what you want to ask or keyword, and our AI agent will scrap and analyze Reddit and X to find the hidden pain points for your next product.",
   };
 
   return (

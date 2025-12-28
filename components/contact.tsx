@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useState } from "react";
 
 import {
   Form,
@@ -51,6 +52,12 @@ const formSchema = z.object({
 export type LoginUser = z.infer<typeof formSchema>;
 
 export function ContactForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: "success" | "error" | null;
+    message: string;
+  }>({ type: null, message: "" });
+
   const form = useForm<LoginUser>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,9 +69,41 @@ export function ContactForm() {
   });
 
   async function onSubmit(values: LoginUser) {
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: "" });
+
     try {
-      console.log("submitted form", values);
-    } catch (e) {}
+      const response = await fetch("/api/contact/send", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: "success",
+          message: data.message || "Thank you for contacting us!",
+        });
+        form.reset(); // 清空表单
+      } else {
+        setSubmitStatus({
+          type: "error",
+          message: data.error || "Failed to send message. Please try again.",
+        });
+      }
+    } catch (error) {
+      console.error("Contact form error:", error);
+      setSubmitStatus({
+        type: "error",
+        message: "Network error. Please check your connection and try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   const socials = [
@@ -217,18 +256,38 @@ export function ContactForm() {
                 />
 
                 <div>
-                  <Button className="w-full">Submit</Button>
+                  <Button 
+                    className="w-full" 
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Sending..." : "Submit"}
+                  </Button>
                 </div>
+
+                {/* 成功/错误提示 */}
+                {submitStatus.type && (
+                  <div
+                    className={cn(
+                      "p-4 rounded-lg text-sm",
+                      submitStatus.type === "success"
+                        ? "bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800"
+                        : "bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800"
+                    )}
+                  >
+                    {submitStatus.message}
+                  </div>
+                )}
               </form>
             </div>
           </div>
-          <div className="flex items-center justify-center space-x-4 py-4">
+          {/* 社交媒体链接已隐藏 */}
+          {/* <div className="flex items-center justify-center space-x-4 py-4">
             {socials.map((social) => (
               <Link href={social.href} key={social.title}>
                 {social.icon}
               </Link>
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </Form>
