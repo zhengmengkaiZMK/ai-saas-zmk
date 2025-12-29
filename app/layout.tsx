@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ViewTransitions } from "next-view-transitions";
 import { ThemeProvider } from "@/context/theme-provider";
 import { SessionProvider } from "@/components/session-provider";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "SaltMine",
@@ -39,6 +40,7 @@ export default function RootLayout({
             defaultTheme="light"
           >
             <SessionProvider>{children}</SessionProvider>
+            <Analytics />
           </ThemeProvider>
         </body>
       </html>
