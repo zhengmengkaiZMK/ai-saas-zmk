@@ -160,6 +160,48 @@ export const PainPointSearch = () => {
     }
   }, [showResults]);
 
+  // 保存历史记录到数据库（仅登录用户）
+  const saveToHistory = async (
+    query: string,
+    analysisData: AnalysisResult,
+    redditPosts: RedditPost[],
+    xPosts: RedditPost[],
+    totalPosts: number,
+    searchTime?: number
+  ) => {
+    try {
+      console.log('[PainPointSearch] Saving to history...');
+      
+      const response = await fetch('/api/pain-points/history', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          keywords: query, // 可以改为提取的关键词
+          redditPosts,
+          xPosts,
+          totalPosts,
+          summary: analysisData.summary,
+          frustrationScore: analysisData.frustrationScore,
+          insights: analysisData.insights,
+          searchTime,
+          analysisTime: null,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('[PainPointSearch] History saved successfully:', data.id);
+      } else {
+        const error = await response.json();
+        console.warn('[PainPointSearch] Failed to save history:', error);
+      }
+    } catch (error) {
+      console.error('[PainPointSearch] Save history error:', error);
+      // 静默失败，不影响用户体验
+    }
+  };
+
   const handleChipClick = (chip: string) => {
     setSearchQuery(chip);
   };
@@ -321,15 +363,32 @@ export const PainPointSearch = () => {
                     setAnalysisResult(analysisData);
                     
                     // 保存Reddit和X帖子数据
+                    let redditPostsData = [];
+                    let xPostsData = [];
                     if (event.searchData?.redditPosts) {
+                      redditPostsData = event.searchData.redditPosts;
                       setRedditPosts(event.searchData.redditPosts);
                     }
                     if (event.searchData?.xPosts) {
+                      xPostsData = event.searchData.xPosts;
                       setXPosts(event.searchData.xPosts);
                     }
                     // 向后兼容：如果使用旧格式
                     if (event.searchData?.posts && !event.searchData?.redditPosts) {
+                      redditPostsData = event.searchData.posts;
                       setRedditPosts(event.searchData.posts);
+                    }
+
+                    // 如果用户已登录，自动保存到历史记录
+                    if (!isGuest && session?.user?.id) {
+                      saveToHistory(
+                        searchQuery.trim(),
+                        analysisData,
+                        redditPostsData,
+                        xPostsData,
+                        event.searchData?.total || 0,
+                        event.searchData?.searchTime
+                      );
                     }
                   } else {
                     // 如果无法解析JSON，使用原始文本

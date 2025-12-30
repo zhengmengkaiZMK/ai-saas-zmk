@@ -8,6 +8,7 @@ import { QuotaCard } from "./quota-card";
 import { MembershipCard } from "./membership-card";
 import { ActivityChart } from "./activity-chart";
 import { Skeleton } from "./skeleton";
+import { HistoryList } from "../pain-point-history/history-list";
 
 interface QuotaData {
   date: string;
@@ -122,6 +123,11 @@ export function DashboardContent() {
           />
         </div>
       )}
+
+      {/* 历史检索记录 */}
+      <div className="mb-8">
+        <HistoryList />
+      </div>
 
       {/* 使用统计 - 已隐藏 */}
       {/* {userStats && (
