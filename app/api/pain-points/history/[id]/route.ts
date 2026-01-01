@@ -9,7 +9,7 @@ import { prisma } from '@/lib/db/prisma';
  */
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证用户登录
@@ -21,7 +21,7 @@ export async function GET(
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // 查询记录
     const record = await prisma.painPointAnalysis.findFirst({
@@ -63,7 +63,7 @@ export async function GET(
  */
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     // 验证用户登录
@@ -75,7 +75,7 @@ export async function DELETE(
       );
     }
 
-    const { id } = params;
+    const { id } = await params;
 
     // 删除记录（确保只能删除自己的记录）
     const deleted = await prisma.painPointAnalysis.deleteMany({

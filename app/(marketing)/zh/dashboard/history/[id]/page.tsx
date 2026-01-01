@@ -6,6 +6,11 @@ export const metadata: Metadata = {
   description: "查看痛点分析详细结果",
 };
 
-export default function ZhHistoryDetailPage({ params }: { params: { id: string } }) {
-  return <HistoryDetail id={params.id} />;
+export default async function ZhHistoryDetailPage({ 
+  params 
+}: { 
+  params: Promise<{ id: string }> 
+}) {
+  const { id } = await params;
+  return <HistoryDetail id={id} />;
 }

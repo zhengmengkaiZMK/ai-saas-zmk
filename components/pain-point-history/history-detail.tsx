@@ -80,6 +80,7 @@ export function HistoryDetail({ id }: HistoryDetailProps) {
 
   useEffect(() => {
     fetchDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchDetail = async () => {
